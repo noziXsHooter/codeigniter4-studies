@@ -27,9 +27,18 @@ $routes->set404Override();
  * --------------------------------------------------------------------
  */
 
+$routes->group('dashboard',['namespace'=>'App\Controllers\dashboard'], static function ($routes){
+    $routes->get('/', 'Dashboard::index');
+    $routes->get('users', 'User::index');
+});
+
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
+$routes->get('/', 'Home::index',['as'=>'home']);
+$routes->get('/contact', 'Contact::index');
+$routes->get('/contact/edit/(:any)/(:any)', 'Contact::edit/$1/$2');
+$routes->post('/contact', 'Contact::store');
+$routes->post('/user', 'User::store',['as'=>'userStore']);
 
 /*
  * --------------------------------------------------------------------
