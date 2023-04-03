@@ -2,6 +2,9 @@
 
 namespace Config;
 
+use App\Libraries\interfaces\PaymentInterface;
+use App\Libraries\payments\Payment;
+use App\Libraries\payments\PaymentPagSeguro;
 use CodeIgniter\Events\Events;
 use CodeIgniter\Exceptions\FrameworkException;
 
@@ -45,4 +48,10 @@ Events::on('pre_system', static function () {
         Events::on('DBQuery', 'CodeIgniter\Debug\Toolbar\Collectors\Database::collect');
         Services::toolbar()->respond();
     }
+
+
+    Events::on('payment', function(PaymentInterface $paymentInterface){
+        $payment = new Payment;
+        $payment->pay($paymentInterface);
+    });
 });
